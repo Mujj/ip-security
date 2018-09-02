@@ -81,8 +81,8 @@ $description = "Rule created by script on $(get-date). Do not edit rule by hand,
 
 # Any existing firewall rules which match the name are deleted every time the script runs.
 "`nDeleting any inbound or outbound firewall rules named like '$rulename-#*'`n"
-$currentrules = netsh.exe advfirewall firewall show rule name=all | select-string '^[Rule Name|Regelname]+:\s+(.+$)' | foreach { $_.matches[0].groups[1].value } 
-if ($currentrules.count -lt 3) {"`nProblem getting a list of current firewall rules, quitting...`n" ; exit } 
+$currentrules = netsh.exe advfirewall firewall show rule name=all | select-string '^[规则名称|Regelname]+:\s+(.+$)' | foreach { $_.matches[0].groups[1].value } 
+if ($currentrules.count -lt 3) {"`nProblem getting a list of current firewall rules, quitting...`n" ; exit }  else { "ok" }
 # Note: If you are getting the above error, try editing the regex pattern two lines above to include the 'Rule Name' in your local language.
 $currentrules | foreach { if ($_ -like "$rulename-#*"){ netsh.exe advfirewall firewall delete rule name="$_" | out-null } } 
 
